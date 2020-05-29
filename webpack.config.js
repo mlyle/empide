@@ -1,8 +1,9 @@
 const webpack = require("webpack");
 const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
 	entry: './src/index.js',
@@ -15,8 +16,13 @@ module.exports = {
 			filename: '[name].css',
 			chunkFilename: '[id].css'
 		}),
-		new webpack.IgnorePlugin(/^fs$/)
-		//new CompressionPlugin()
+		new CopyPlugin({
+			patterns: [
+				'src/index.html',
+			]
+		}),
+		new webpack.IgnorePlugin(/^fs$/),
+		new CleanWebpackPlugin(),
 	],
 	module: {
 		rules: [
