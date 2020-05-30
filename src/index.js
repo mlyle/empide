@@ -19,17 +19,24 @@ import feather from 'feather-icons';
 import Tabby from 'tabbyjs';
 
 document.addEventListener('DOMContentLoaded', () => {
+	/* Display the icons we have on our buttons */
 	feather.replace();
 
+	/* Code to run when tab changes */
 	document.addEventListener('tabby', function (event) {
-		var tab = event.target;
-		console.log(tab.id);
-		console.log(tab);
-		console.log(tab.parentElement);
-
+		/* This hack is necessary because we want to style the list item,
+		 * not the href in the tab like tabby-js assumes.  This is necessary
+		 * because we have an input element inside the tab and it is not legal
+		 * HTML to put an input inside an anchor (even though, in practice, it
+		 * works).
+		 */
 		tab.parentElement.setAttribute('aria-selected', 'true');
 		event.detail.previousTab.parentElement.removeAttribute('aria-selected');
 
+		/* This hack is necessary because the terminal does not get a proper
+		 * size when it is in the background.  Also, it's desirable to immediately
+		 * focus the terminal when the terminal tab is selected.
+		 */
 		if (tab.id == 'tabby-toggle_terminal') {
 			term.resize(80, 25);
 			term.focus();
@@ -38,9 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	var tabs = new Tabby('[data-tabs]');
 
+	/* Ensure that when the input is clicked, we properly switch to the editor tab */
+	var input = document.querySelector('li input');
+	input.addEventListener("focus", function (event) {
+		tabs.toggle("#editor");
+	}, false);
+
+	/* Hack: select the editor list item immediately */
 	var editor = document.querySelector('[href*="#editor"]');
 	editor.parentElement.setAttribute('aria-selected', 'true');
 
+	/* Asynchronously import the ace editor and then its themes and modes */
 	import(/* webpackChunkName: "ace" */ 'ace-builds/src-min-noconflict/ace').then(module => {
 		editor = ace.edit('editor');
 		import(/* webpackChunkName: "ace-webpack" */ 'ace-builds/webpack-resolver').then(module => {
@@ -50,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	/* Asynchronously import xterm */
 	import(/* webpackChunkName: "xterm" */ 'xterm').then(module => {
 		term = new module.Terminal();
 		term.open(document.getElementById('termContainer'));
@@ -99,9 +115,10 @@ async function waitForText(text) {
 
 	commandData = commandData.substr(idx + text.length);
 
+	/*
 	console.log("waitForText found what it wanted, remaining: " + commandData);
-
 	console.log("preceding: " + val);
+	*/
 
 	return val;
 }
