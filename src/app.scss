@@ -136,7 +136,8 @@ input {
 	outline: none !important;
 }
 
-[role="tablist"] li:hover {
-	background-color: #6898c8;
-	border: 1px solid #6898c8;
+[role="tablist"] li:hover:not([aria-selected="true"]) {
+	background-color: #6898c860;
+	border: 2px solid #88b8e860;
+	padding: 1px 3px 3px 3px;
 }
