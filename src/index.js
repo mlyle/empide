@@ -20,8 +20,26 @@ import Tabby from 'tabbyjs';
 
 document.addEventListener('DOMContentLoaded', () => {
 	feather.replace();
-	console.log(Tabby);
+
+	document.addEventListener('tabby', function (event) {
+		var tab = event.target;
+		console.log(tab.id);
+		console.log(tab);
+		console.log(tab.parentElement);
+
+		tab.parentElement.setAttribute('aria-selected', 'true');
+		event.detail.previousTab.parentElement.removeAttribute('aria-selected');
+
+		if (tab.id == 'tabby-toggle_terminal') {
+			term.resize(80, 25);
+			term.focus();
+		}
+	}, false);
+
 	var tabs = new Tabby('[data-tabs]');
+
+	var editor = document.querySelector('[href*="#editor"]');
+	editor.parentElement.setAttribute('aria-selected', 'true');
 
 	import(/* webpackChunkName: "ace" */ 'ace-builds/src-min-noconflict/ace').then(module => {
 		editor = ace.edit('editor');
@@ -36,15 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		term = new module.Terminal();
 		term.open(document.getElementById('termContainer'));
 		term.onData(writeChunk);
-		document.addEventListener('tabby', function (event) {
-			var tab = event.target;
-			console.log(tab.id);
-
-			if (tab.id == 'tabby-toggle_terminal') {
-				term.resize(80, 25);
-				term.focus();
-			}
-		}, false);
 	});
 
 

@@ -84,7 +84,7 @@ button:disabled > * {
 	color: #c8d8ff;
 }
 
-a > input {
+input {
 	vertical-align: 78%;
 }
 
@@ -112,7 +112,7 @@ a > input {
  * The tabs
  */
 
-[role="tab"] {
+[role="tablist"] li {
 	border-top-color: transparent;
 	border-top-left-radius: 0.5em;
 	border-top-right-radius: 0.5em;
@@ -122,21 +122,21 @@ a > input {
 	border-bottom-color: transparent;
 	padding: 2px 4px 4px 4px;
 	background-color: #6898c830;
+	outline: none !important;
 }
 
-[role="tab"][aria-selected="true"] {
+[role="tablist"] li * {
+	outline: none !important;
+}
+
+[role="tablist"] > [aria-selected="true"] {
 	padding: 1px 3px 3px 3px;
 	border: 2px solid #88b8e8;
 	background-color: #6898c8;
 	outline: none !important;
 }
 
-[role="tab"]:hover:not([aria-selected="true"]) {
+[role="tablist"] li:hover {
 	background-color: #6898c8;
-}
-
-[role="tab"]:hover:not([aria-selected="true"]) {
 	border: 1px solid #6898c8;
 }
-
-
