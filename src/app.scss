@@ -1,1 +1,142 @@
 @import '~xterm/css/xterm.css';
+
+#editor {
+	height: 100%;
+	width: 100%;
+}
+
+.wrapper {
+	position: fixed;
+	top: 49px;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	overflow: auto;
+
+	background-color: #303030;
+}
+
+#terminal {
+	padding: 50px 50px 50px 50px;
+}
+
+.editor {
+	height: 100%;
+}
+
+button {
+	background-color: #304060;
+	color: #e0f0ff;
+	border: 2px solid;
+	border-color: #e0f0ff80;
+	outline: none !important;
+}
+
+button > * {
+	padding: 4px;
+	vertical-align: middle;
+	height: 24px;
+	color: #e0f0ff;
+	stroke-width: 1.5px;
+}
+
+button:disabled {
+	color: #757575;
+	background-color: #454555;
+	border-color: #e0f0ff40;
+}
+
+button:active {
+	background-color: #5078a0;
+	color: #ffffff;
+}
+
+
+button:disabled > * {
+	color: #757575;
+}
+
+@media only screen and (max-width: 925px) {
+	#buttonBar button {
+		font-size: 0
+	}
+}
+
+#buttonBar {
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: fixed;
+	height: 43px;
+	background-color: #406090;
+	color: #ffffff;
+
+	padding: 4px 2px 0px 4px;
+	border: 1px solid transparent;
+	border-bottom-color: #6898c8;
+}
+
+.tab {
+	padding:4px 4px 4px 4px;
+	width: 36px;
+	height: 36px;
+	color: #c8d8ff;
+}
+
+a > input {
+	vertical-align: 78%;
+}
+
+[role="tablist"] {
+	display: inline;
+	vertical-align: bottom;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	float: right;
+}
+
+[role="tablist"] * {
+	box-sizing: border-box;
+}
+
+/**
+ * The tablist item
+ */
+[role="tablist"] li {
+	display: inline-block;
+}
+
+/**
+ * The tabs
+ */
+
+[role="tab"] {
+	border-top-color: transparent;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	display: inline-block;
+	margin-bottom: -1px;
+	border: 1px solid #6898c8;
+	border-bottom-color: transparent;
+	padding: 2px 4px 4px 4px;
+	background-color: #6898c830;
+}
+
+[role="tab"][aria-selected="true"] {
+	padding: 1px 3px 3px 3px;
+	border: 2px solid #88b8e8;
+	background-color: #6898c8;
+	outline: none !important;
+}
+
+[role="tab"]:hover:not([aria-selected="true"]) {
+	background-color: #6898c8;
+}
+
+[role="tab"]:hover:not([aria-selected="true"]) {
+	border: 1px solid #6898c8;
+}
+
+
