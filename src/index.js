@@ -189,7 +189,7 @@ def listdir(filespec):
 
 	return result
 
-print('\\r\\n'.join(listdir('/')))
+print('\\r\\n'.join(listdir('/')), end='')
 `;
 
 	var filelist = await commandGetResponse(command);
