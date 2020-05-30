@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		 * HTML to put an input inside an anchor (even though, in practice, it
 		 * works).
 		 */
+		var tab = event.target;
+
 		tab.parentElement.setAttribute('aria-selected', 'true');
 		event.detail.previousTab.parentElement.removeAttribute('aria-selected');
 
