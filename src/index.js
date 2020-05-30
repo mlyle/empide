@@ -15,12 +15,17 @@ let fitAddon;
 let term;
 let editor;
 
+let modal;
+
 import feather from 'feather-icons';
 import Tabby from 'tabbyjs';
+import VanillaModal from 'vanilla-modal';
 
 document.addEventListener('DOMContentLoaded', () => {
 	/* Display the icons we have on our buttons */
 	feather.replace();
+
+	modal = new VanillaModal();
 
 	/* Code to run when tab changes */
 	document.addEventListener('tabby', function (event) {
@@ -77,11 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	butConnect.addEventListener('click', clickConnect);
 	butDownload.addEventListener('click', clickDownload);
+	butZip.addEventListener('click', clickZip);
 
 	if ('serial' in navigator) {
 		//notSupported.classList.add('hidden');
 	}
 });
+
+async function clickZip() {
+	modal.open('#modal-1');
+}
 
 async function clickConnect() {
 	port = await navigator.serial.requestPort();
@@ -199,6 +209,7 @@ print('\\r\\n'.join(listdir('/')), end='')
 	filelist = filelist.split('\r\n');
 
 	console.log(filelist);
+	modal.open('#modal-1');
 }
 
 function clickDownload() {
