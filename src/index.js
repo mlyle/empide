@@ -79,17 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
 	editor.parentElement.setAttribute('aria-selected', 'true');
 
 	/* Asynchronously import the ace editor and then its themes and modes */
-	import(/* webpackChunkName: "ace" */ 'ace-builds/src-min-noconflict/ace').then(module => {
+	import(/* webpackPreload: true */ /* webpackChunkName: "ace" */ 'ace-builds/src-min-noconflict/ace').then(module => {
 		editor = ace.edit('editor');
-		import(/* webpackChunkName: "ace-webpack" */ 'ace-builds/webpack-resolver').then(module => {
-			editor.setTheme('ace/theme/monokai');
-			editor.session.setMode('ace/mode/python');
-			editor.setFontSize('16px');
+		import(/* webpackPreload: true*/ /* webpackChunkName: "ace-webpack" */ 'ace-builds/webpack-resolver').then(module => {
+			import(/* webpackPreload: true*/ /* webpackChunkName: "ace-monokai" */ 'ace-builds/src-min-noconflict/theme-monokai').then(module => {
+				editor.setTheme(module);
+				editor.session.setMode('ace/mode/python');
+				editor.setFontSize('16px');
+				/* Only after all of this, should the control appear */
+				$('#editor').css('opacity', '1.0');
+			});
 		});
 	});
 
 	/* Asynchronously import xterm */
-	import(/* webpackChunkName: "xterm" */ 'xterm').then(module => {
+	import(/* webpackPreload: true */ /* webpackChunkName: "xterm" */ 'xterm').then(module => {
 		term = new module.Terminal();
 		term.open(document.getElementById('termContainer'));
 		term.onData(writeChunk);

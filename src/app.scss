@@ -28,6 +28,8 @@ body {
 #editor {
 	height: 100%;
 	width: 100%;
+	/* Hide until editor control fully loads */
+	opacity: 0;
 }
 
 #info {
