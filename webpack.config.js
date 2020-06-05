@@ -18,6 +18,7 @@ module.exports = {
 		}),
 		new CopyPlugin({
 			patterns: [
+				'node_modules/micropython/lib/firmware.wasm',
 				'src/index.html',
 				'src/mpedit.svg',
 			]

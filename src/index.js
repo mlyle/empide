@@ -91,14 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
 				editor.setFontSize('16px');
 				/* Only after all of this, should the control appear */
 				$('#editor').css('opacity', '1.0');
-			});
-			/* Lowest priority: Asynchronously import xterm */
-			import(/* webpackPreload: true */ /* webpackChunkName: "xterm" */ 'xterm').then(module => {
-				term = new module.Terminal();
-				term.open(document.getElementById('termContainer'));
-				term.onData(writeChunk);
-			});
 
+				/* Lowest priority: Asynchronously import xterm */
+				import(/* webpackPreload: true */ /* webpackChunkName: "xterm" */ 'xterm').then(module => {
+					term = new module.Terminal();
+					term.open(document.getElementById('termContainer'));
+					term.onData(writeChunk);
+				});
+
+				/* Lowest priority: asynchronously import micropython */
+				// import(/* webpackPreload: true */ /* webpackChunkName: "micropython" */ 'micropython').then(module => {
+				// 	window.mp_js = module;
+				// 	mp_js_stdout.addEventListener('print', function(e) {
+				// 		term.write(e.data);
+				// 	}, false);
+				// });
+			});
 		});
 	});
 
