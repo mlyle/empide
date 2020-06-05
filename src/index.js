@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		return this;
 	};
 
+	$('button[needs-connection]').attr('disabled', true);
+
 	/* Display the icons we have on our buttons */
 	feather.replace();
 
@@ -119,9 +121,8 @@ async function clickConnect() {
 	outputDone = encoder.readable.pipeTo(port.writable);
 	outputStream = encoder.writable;
 
-	butDownload.disabled = false;
-	butUpload.disabled = false;
-	butConnect.disabled = true;
+	$('button[needs-connection]').removeAttr('disabled');
+	$('#butConnect').attr('disabled', true);
 }
 
 async function waitForText(text) {

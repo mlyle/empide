@@ -9,8 +9,8 @@
 		<div id="buttonBar">
 			<button id="butSave" type="button"><span data-feather="save"></span>Save to Computer</button>
 			<button id="butConnect" type="button"><span data-feather="refresh-cw"></span>Connect</button>
-			<button id="butUpload" type="button" disabled><span data-feather="download"></span>Save to Board</button>
-			<button id="butDownload" type="button" disabled><span data-feather="upload"></span>Open from Board</button>
+			<button id="butUpload" type="button" needs-connection><span data-feather="download"></span>Save to Board</button>
+			<button id="butDownload" type="button" needs-connection><span data-feather="upload"></span>Open from Board</button>
 			<ul data-tabs id="tabs">
 				<li><a data-tabby-default href="#editor"><i class="tab" data-feather="edit"></i></a><input id="fileName" value="/MyFile.py"></li>
 				<li><a href="#terminal"><i class="tab" data-feather="terminal"></i></a></li>
@@ -22,10 +22,10 @@
 		<div class="wrapper">
 			<div id="terminal">
 				<div id="termContainer"></div> 
-				<button id="butReset" type="button" disabled><span data-feather="refresh-ccw"></span>Reset Board</button>
-				<button id="butInterrupt" type="button" disabled><span data-feather="zap"></span>Interrupt</button>
-				<button id="butInstall" type="button" disabled><span data-feather="package"></span>Reinstall Default Modules</button>
-				<button id="butZip" type="button" disabled><span data-feather="archive"></span>Download ZIP Backup</button>
+				<button id="butReset" type="button" needs-connection><span data-feather="refresh-ccw"></span>Reset Board</button>
+				<button id="butInterrupt" type="button" needs-connection><span data-feather="zap"></span>Interrupt</button>
+				<button id="butInstall" type="button" needs-connection><span data-feather="package"></span>Reinstall Default Modules</button>
+				<button id="butZip" type="button" needs-connection><span data-feather="archive"></span>Download ZIP Backup</button>
 			</div>
 			<div id="editor">def listdir(directory):
 				result = set()
