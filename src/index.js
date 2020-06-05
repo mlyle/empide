@@ -38,14 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		return this;
 	};
 
-	/* Disable all buttons that depend upon an active connection */
-	$('button[needs-connection]').attr('disabled', true);
-
-	/* Set all top buttons to have a tooltip equalling their text content.  This helps when
-	 * the window is narrow and the button title disappears.
-	 */
-	$('#buttonBar button').each(function(el,index) { el.title=el.textContent; })
-
 	/* Display the icons we have on our buttons */
 	feather.replace();
 
@@ -103,6 +95,17 @@ document.addEventListener('DOMContentLoaded', () => {
 		term.onData(writeChunk);
 	});
 
+
+	/* Disable all buttons that depend upon an active connection */
+	$('button[needs-connection]').attr('disabled', true);
+
+	/* Set all top buttons to have a tooltip equalling their text content.  This helps when
+	 * the window is narrow and the button title disappears.
+	 */
+	$('#buttonBar button').each(function(el,index) { el.title=el.textContent; });
+
+	/* If the logo is clicked, show the info */
+	$('.float-logo').on('click', function (event) { tabs.toggle("#info"); });
 
 	butConnect.addEventListener('click', clickConnect);
 	butDownload.addEventListener('click', clickDownload);
