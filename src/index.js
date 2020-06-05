@@ -107,6 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	/* If the logo is clicked, show the info */
 	$('.float-logo').on('click', function (event) { tabs.toggle("#info"); });
 
+	/* Disable all buttons that depend upon an active connection */
+	$('button[needs-connection]').attr('disabled', true);
+
+	/* Prevent drag and drop of tabs (an annoyance) */
+	$('svg.tab').attr('draggable', "false");
+	$('a').attr('draggable', "false");
+
 	butConnect.addEventListener('click', clickConnect);
 	butDownload.addEventListener('click', clickDownload);
 	butZip.addEventListener('click', clickZip);
