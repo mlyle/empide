@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.$ = min$;
 
 	/* Add removeAttr call to prototype because there was no way to strip attributes
-	 * before.  This is necessary to re-enable disabled buttons. */
+	 * before.  This is necessary to re-enable disabled buttons.xi
+	 */
 	min$.prototype.removeAttr = function(attr){
 		min$.each(this,function(el) {
 			el.removeAttribute(attr);
@@ -37,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	/* Disable all buttons that depend upon an active connection */
 	$('button[needs-connection]').attr('disabled', true);
+
+	/* Set all top buttons to have a tooltip equalling their text content.  This helps when
+	 * the window is narrow and the button title disappears.
+	 */
+	$('#buttonBar button').each(function(el,index) { el.title=el.textContent; })
 
 	/* Display the icons we have on our buttons */
 	feather.replace();
