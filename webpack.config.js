@@ -19,6 +19,7 @@ module.exports = {
 		new CopyPlugin({
 			patterns: [
 				'src/index.html',
+				'src/mpedit.svg',
 			]
 		}),
 		new webpack.IgnorePlugin(/^fs$/),

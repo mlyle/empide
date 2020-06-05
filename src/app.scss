@@ -1,5 +1,13 @@
 @import '~xterm/css/xterm.css';
 
+.float-logo {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	z-index: 1000;
+	opacity: 0.65;
+}
+
 #editor {
 	height: 100%;
 	width: 100%;
