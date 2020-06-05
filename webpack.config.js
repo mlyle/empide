@@ -25,6 +25,9 @@ module.exports = {
 		new webpack.IgnorePlugin(/^fs$/),
 		new CleanWebpackPlugin(),
 	],
+	devServer: {
+		contentBase: './dist',
+	},
 	module: {
 		rules: [
 			{
