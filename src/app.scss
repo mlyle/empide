@@ -1,9 +1,13 @@
 @import '~xterm/css/xterm.css';
 
+body {
+	color: #c0c0c0;
+}
+
 .float-logo {
 	position: absolute;
 	bottom: 0;
-	right: 0;
+	right: 20px;
 	z-index: 1000;
 	opacity: 0.65;
 }
@@ -13,13 +17,19 @@
 	width: 100%;
 }
 
+#info {
+	overflow-y: auto;
+	height: 100%;
+	font-family: "Open Sans";
+}
+
 .wrapper {
 	position: fixed;
 	top: 49px;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	overflow: auto;
+	overflow: visible;
 
 	background-color: #303030;
 }
