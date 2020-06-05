@@ -23,8 +23,11 @@ import VanillaModal from 'vanilla-modal';
 import minjs from 'minjs';
 
 document.addEventListener('DOMContentLoaded', () => {
+	/* Bind minjs to $ window object for ease of use. */
 	window.$ = min$;
 
+	/* Add removeAttr call to prototype because there was no way to strip attributes
+	 * before.  This is necessary to re-enable disabled buttons. */
 	min$.prototype.removeAttr = function(attr){
 		min$.each(this,function(el) {
 			el.removeAttribute(attr);
@@ -32,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		return this;
 	};
 
+	/* Disable all buttons that depend upon an active connection */
 	$('button[needs-connection]').attr('disabled', true);
 
 	/* Display the icons we have on our buttons */
