@@ -20,8 +20,18 @@ let modal;
 import feather from 'feather-icons';
 import Tabby from 'tabbyjs';
 import VanillaModal from 'vanilla-modal';
+import minjs from 'minjs';
 
 document.addEventListener('DOMContentLoaded', () => {
+	window.$ = min$;
+
+	min$.prototype.removeAttr = function(attr){
+		min$.each(this,function(el) {
+			el.removeAttribute(attr);
+		});
+		return this;
+	};
+
 	/* Display the icons we have on our buttons */
 	feather.replace();
 
