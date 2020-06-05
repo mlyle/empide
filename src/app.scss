@@ -3,18 +3,19 @@
 body {
 	color: #c0c0c0;
 	scrollbar-color: #999 #555;
+	background-color: #303030;
 }
 
 ::-webkit-scrollbar {
-    height: 12px;
-    width: 12px;
-    background: #555;
+	height: 12px;
+	width: 12px;
+	background: #555;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #999;
-    -webkit-border-radius: 1ex;
-    -webkit-box-shadow: 0px 1px 2px #444;
+	background: #999;
+	-webkit-border-radius: 1ex;
+	-webkit-box-shadow: 0px 1px 2px #444;
 }
 
 .float-logo {
@@ -52,6 +53,8 @@ body {
 	overflow: visible;
 
 	background-color: #303030;
+
+	opacity: 0;
 }
 
 #terminal {

@@ -68,6 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	var tabs = new Tabby('[data-tabs]');
 
+	/* Prevent flash from loading tab content */
+	$('.wrapper').css('opacity', '1.0');
+
 	/* Ensure that when the input is clicked, we properly switch to the editor tab */
 	var input = document.querySelector('li input');
 	input.addEventListener("focus", function (event) {
@@ -89,14 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
 				/* Only after all of this, should the control appear */
 				$('#editor').css('opacity', '1.0');
 			});
-		});
-	});
+			/* Lowest priority: Asynchronously import xterm */
+			import(/* webpackPreload: true */ /* webpackChunkName: "xterm" */ 'xterm').then(module => {
+				term = new module.Terminal();
+				term.open(document.getElementById('termContainer'));
+				term.onData(writeChunk);
+			});
 
-	/* Asynchronously import xterm */
-	import(/* webpackPreload: true */ /* webpackChunkName: "xterm" */ 'xterm').then(module => {
-		term = new module.Terminal();
-		term.open(document.getElementById('termContainer'));
-		term.onData(writeChunk);
+		});
 	});
 
 
