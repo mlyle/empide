@@ -22,6 +22,8 @@ import Tabby from 'tabbyjs';
 import VanillaModal from 'vanilla-modal';
 import minjs from 'minjs';
 
+require("typeface-open-sans");
+
 document.addEventListener('DOMContentLoaded', () => {
 	/* Bind minjs to $ window object for ease of use. */
 	window.$ = min$;
