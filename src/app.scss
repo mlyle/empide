@@ -3,7 +3,7 @@
 body {
 	color: #c0c0c0;
 	scrollbar-color: #999 #555;
-	background-color: #303030;
+	background-color: #272822;
 }
 
 span[data-feather] {
@@ -40,7 +40,7 @@ span[data-feather] {
 	width: 100%;
 	/* Hide until editor control fully loads */
 	opacity: 0;
-	transition: opacity 500ms;
+	transition: opacity 700ms;
 }
 
 #info {
@@ -62,7 +62,7 @@ span[data-feather] {
 	right: 0;
 	overflow: visible;
 
-	background-color: #303030;
+	background-color: #272822;
 
 	opacity: 0;
 }
