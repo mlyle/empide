@@ -17,7 +17,6 @@ let editor;
 
 let modal;
 
-import feather from 'feather-icons';
 import Tabby from 'tabbyjs';
 import VanillaModal from 'vanilla-modal';
 import minjs from 'minjs';
@@ -38,8 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		return this;
 	};
 
-	/* Display the icons we have on our buttons */
-	feather.replace();
+	import(/* webpackPreload: true */ /* webpackChunkName: "feather-icons" */ 'feather-icons').then(module => {
+		/* Display the icons we have on our buttons */
+		module.replace();
+
+		/* Prevent drag and drop of tabs (an annoyance) */
+		$('svg.tab').attr('draggable', "false");
+		$('a').attr('draggable', "false");
+	});
 
 	modal = new VanillaModal();
 
@@ -124,10 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	/* Disable all buttons that depend upon an active connection */
 	$('button[needs-connection]').attr('disabled', true);
-
-	/* Prevent drag and drop of tabs (an annoyance) */
-	$('svg.tab').attr('draggable', "false");
-	$('a').attr('draggable', "false");
 
 	butConnect.addEventListener('click', clickConnect);
 	butDownload.addEventListener('click', clickDownload);
