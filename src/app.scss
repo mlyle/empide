@@ -40,6 +40,7 @@ span[data-feather] {
 	width: 100%;
 	/* Hide until editor control fully loads */
 	opacity: 0;
+	transition: opacity 500ms;
 }
 
 #info {
@@ -180,6 +181,7 @@ input {
 	padding: 2px 4px 4px 4px;
 	background-color: #6898c830;
 	outline: none !important;
+	transition: background-color 500ms, border-color 500ms;
 }
 
 [role="tablist"] li * {
@@ -194,8 +196,8 @@ input {
 }
 
 [role="tablist"] li:hover:not([aria-selected="true"]) {
-	background-color: #6898c860;
-	border: 2px solid #88b8e860;
+	background-color: #6898c880;
+	border: 2px solid #88b8e880;
 	padding: 1px 3px 3px 3px;
 }
 
