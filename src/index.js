@@ -9,7 +9,7 @@ let outputDone;
 let inputStream;
 let outputStream;
 let commandBusy = 0;
-let commandData = "";
+let commandData = '';
 let fitAddon;
 
 let term;
@@ -21,7 +21,7 @@ import Tabby from 'tabbyjs';
 import VanillaModal from 'vanilla-modal';
 import minjs from 'minjs';
 
-require("typeface-open-sans");
+require('typeface-open-sans');
 
 document.addEventListener('DOMContentLoaded', () => {
 	/* Bind minjs to $ window object for ease of use. */
@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		module.replace();
 
 		/* Prevent drag and drop of tabs (an annoyance) */
-		$('svg.tab').attr('draggable', "false");
-		$('a').attr('draggable', "false");
+		$('svg.tab').attr('draggable', 'false');
+		$('a').attr('draggable', 'false');
 	});
 
 	modal = new VanillaModal();
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		 * size when it is in the background.  Also, it's desirable to immediately
 		 * focus the terminal when the terminal tab is selected.
 		 */
-		if (tab.id == 'tabby-toggle_terminal') {
+		if (tab.id === 'tabby-toggle_terminal') {
 			term.resize(80, 25);
 			term.focus();
 		}
@@ -78,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	/* Ensure that when the input is clicked, we properly switch to the editor tab */
 	var input = document.querySelector('li input');
-	input.addEventListener("focus", function (event) {
-		tabs.toggle("#editor");
+	input.addEventListener('focus', function (event) {
+		tabs.toggle('#editor');
 	}, false);
 
 	/* Hack: select the editor list item immediately */
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	$('#buttonBar button').each(function(el,index) { el.title=el.textContent; });
 
 	/* If the logo is clicked, show the info */
-	$('.float-logo').on('click', function (event) { tabs.toggle("#info"); });
+	$('.float-logo').on('click', function (event) { tabs.toggle('#info'); });
 
 	/* Disable all buttons that depend upon an active connection */
 	$('button[needs-connection]').attr('disabled', true);
@@ -166,7 +166,7 @@ async function clickConnect() {
 async function waitForText(text) {
 	var idx = -1;
 
-	while (idx == -1) {
+	while (idx === -1) {
 		await new Promise(resolve => { setTimeout(resolve, 30);});
 
 		idx = commandData.indexOf(text);
@@ -189,17 +189,17 @@ async function commandSend(text) {
 
 	writeChunk('\x01')
 
-	await waitForText("raw REPL; CTRL-B to exit");
+	await waitForText('raw REPL; CTRL-B to exit');
 
 	writeChunk(text);
 
-	term.write("\r\n\x1B[31m");
+	term.write('\r\n\x1B[31m');
 	term.write(text.replace(/\n/g, '\r\n'));
 	term.write('\x1B[0m');
 
 	writeChunk('\x04');
 
-	await waitForText("OK");
+	await waitForText('OK');
 
 	commandBusy--;
 }
@@ -209,16 +209,16 @@ async function commandGetResponse(text) {
 
 	await commandSend(text);
 
-	var response = await waitForText("\x04");
+	var response = await waitForText('\x04');
 
 	console.log(response);
 
 	/* Ignore error response */
-	await waitForText("\x04");
+	await waitForText('\x04');
 
-	writeChunk("\x02");
+	writeChunk('\x02');
 
-	await waitForText(">>> ");
+	await waitForText('>>> ');
 
 	commandBusy--;
 
@@ -270,13 +270,13 @@ async function readLoop() {
 		const { value, done } = await reader.read();
 		if (value) {
 			if (commandBusy) {
-				term.write("\x1B[32m");
+				term.write('\x1B[32m');
 			}
 
 			term.write(value);
 
 			if (commandBusy) {
-				term.write("\x1B[0m");
+				term.write('\x1B[0m');
 				commandData = commandData + value;
 			}
 		}
