@@ -1,3 +1,5 @@
+# Embedded MicroPython (web) IDE
+
 This is very much an early work in progress.
 
 Setup with: `npm install`
