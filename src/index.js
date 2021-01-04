@@ -18,7 +18,7 @@ let editor;
 let modal;
 
 import Tabby from 'tabbyjs';
-import VanillaModal from 'vanilla-modal';
+import MicroModal from 'micromodal';
 import minjs from 'minjs';
 
 require('typeface-open-sans');
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		$('a').attr('draggable', 'false');
 	});
 
-	modal = new VanillaModal();
+	MicroModal.init();
 
 	/* Code to run when tab changes */
 	document.addEventListener('tabby', function (event) {
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function clickZip() {
-	modal.open('#modal-1');
+	MicroModal.show('modal-1');
 }
 
 async function clickConnect() {
@@ -258,7 +258,7 @@ print('\\r\\n'.join(listdir('/')), end='')
 	filelist = filelist.split('\r\n');
 
 	console.log(filelist);
-	modal.open('#modal-1');
+	MicroModal.show('modal-1');
 }
 
 function clickDownload() {
