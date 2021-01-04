@@ -20,6 +20,7 @@ let modal;
 import Tabby from 'tabbyjs';
 import MicroModal from 'micromodal';
 import minjs from 'minjs';
+import FileSaver from 'file-saver';
 
 require('typeface-open-sans');
 
@@ -83,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	}, false);
 
 	/* Hack: select the editor list item immediately */
-	var editor = document.querySelector('[href*="#editor"]');
-	editor.parentElement.setAttribute('aria-selected', 'true');
+	var editor_elem = document.querySelector('[href*="#editor"]');
+	editor_elem.parentElement.setAttribute('aria-selected', 'true');
 
 	/* Asynchronously import the ace editor and then its themes and modes */
 	import(/* webpackPreload: true */ /* webpackChunkName: "ace" */ 'ace-builds/src-min-noconflict/ace').then(module => {
@@ -130,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	/* Disable all buttons that depend upon an active connection */
 	$('button[needs-connection]').attr('disabled', true);
 
+	butSave.addEventListener('click', clickSave);
 	butConnect.addEventListener('click', clickConnect);
 	butDownload.addEventListener('click', clickDownload);
 	butZip.addEventListener('click', clickZip);
@@ -138,6 +140,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		//notSupported.classList.add('hidden');
 	}
 });
+
+async function clickSave() {
+	var blob = new Blob([editor.getValue()], {type: "text/plain;charset=utf-8"});
+	var fileName = $('#fileName')[0].value.split("/");
+	fileName = fileName[fileName.length - 1] + ".txt";
+
+	FileSaver.saveAs(blob, fileName);
+}
 
 async function clickZip() {
 	MicroModal.show('modal-1');

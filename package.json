@@ -7,6 +7,7 @@
   "dependencies": {
     "ace-builds": "^1.4.11",
     "feather-icons": "^4.28.0",
+    "file-saver": "^2.0.5",
     "micromodal": "^0.4.6",
     "micropython": "^1.1.8",
     "minjs": "^2.0.6",
