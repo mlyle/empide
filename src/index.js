@@ -146,7 +146,7 @@ async function clickZip() {
 async function clickConnect() {
 	port = await navigator.serial.requestPort();
 	// - Wait for the port to open.
-	await port.open({ baudrate: 115200 });
+	await port.open({ baudRate: 115200 });
 
 	let decoder = new TextDecoderStream();
 	inputDone = port.readable.pipeTo(decoder.writable);
