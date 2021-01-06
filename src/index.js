@@ -236,6 +236,21 @@ async function commandGetResponse(text) {
 	return response;
 }
 
+async function getFileContents(fileName) {
+	// XXX: properly escape
+	const command = `
+def getFile(filespec):
+	with open(filespec) as reader:
+		print(reader.read())
+
+getFile('` + fileName + `')
+`;
+
+	var contents = await commandGetResponse(command);
+
+	return contents;
+}
+
 async function fileList() {
 	const command = `
 def listdir(filespec):
@@ -298,7 +313,11 @@ async function completeOpening() {
 
 	var fileName = open_chooser.selectedOptions[0].text;
 
-	editor.setValue(fileName);
+	var contents = await getFileContents(fileName);
+
+	editor.setValue(contents);
+
+	$('#fileName')[0].value = fileName;
 
 	MicroModal.close('modal-open');
 }
