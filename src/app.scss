@@ -119,13 +119,17 @@ button:disabled > * {
 	bottom: 0;
 	right: 0;
 	position: fixed;
-	height: 43px;
+	height: 45px;
 	background-color: #406090;
 	color: #ffffff;
 
-	padding: 4px 2px 0px 4px;
+	padding: 2px 2px 0px 4px;
 	border: 1px solid transparent;
 	border-bottom-color: #6898c8;
+}
+
+#buttonBar button {
+	margin: 3px 0 6px 0;
 }
 
 span[data-feather].tab {
@@ -149,9 +153,10 @@ input {
 [role="tablist"] {
 	display: inline;
 	vertical-align: bottom;
+	align: right;
 	list-style: none;
 	margin: 0;
-	padding: 0;
+	padding: 0 0 0 30px;
 }
 
 [role="tablist"] * {
