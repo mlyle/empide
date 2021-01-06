@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
-
 	/* Disable all buttons that depend upon an active connection */
 	$('button[needs-connection]').attr('disabled', true);
 
@@ -260,9 +259,9 @@ def listdir(filespec):
 
 	try:
 		children = os.listdir(filespec)
-	except OSError:                        
+	except OSError:
 		os.stat(filespec)
-		result.add(filespec) 
+		result.add(filespec)
 	else:
 		if children:
 			for child in children:
@@ -281,11 +280,20 @@ print('\\r\\n'.join(listdir('/')), end='')
 
 	var filelist = await commandGetResponse(command);
 
-	filelist = filelist.split('\r\n');
+	// we seem to get \r\r\n between things; so we trim
+	filelist = filelist.split('\n');
 
-	console.log(filelist);
+	var trimmed = [];
 
-	return filelist;
+	var idx;
+
+	for (idx in filelist) {
+		trimmed.push(filelist[idx].trim());
+	}
+
+	console.log(trimmed);
+
+	return trimmed;
 }
 
 async function clickDownload() {
