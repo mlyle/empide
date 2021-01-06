@@ -70,7 +70,7 @@ listdir('/')
 				Additionally, the communications techniques were inspired by the Adafruit Micropython Tool (ampy) by, of course, Adafruit Industries, though this contains a new and somewhat different implementation.<p>
 
 				mpEDIT itself is licensed as follows:<p>
-				Copyright 2020 Michael Lyle<p>
+				Copyright &copy; 2020-2021 Michael Lyle<p>
 
 				Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<p>
 
@@ -80,23 +80,21 @@ listdir('/')
 			</div>
 		</div>
 
-		<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+		<div class="modal micromodal-slide" id="modal-open" aria-hidden="true">
 			<div class="modal__overlay" tabindex="-1" data-micromodal-close>
-			  <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+			  <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-open-title">
 				<header class="modal__header">
-				  <h2 class="modal__title" id="modal-1-title">
-					Micromodal
+				  <h2 class="modal__title" id="modal-open-title">
+					Open File
 				  </h2>
 				  <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
 				</header>
-				<main class="modal__content" id="modal-1-content">
-				  <p>
-					Try hitting the <code>tab</code> key and notice how the focus stays within the modal itself. Also, <code>esc</code> to close modal.
-				  </p>
+				<main class="modal__content" id="modal-open-content">
+				<select name="lstFiles" size="5" id="modal-open-chooser"></select>
 				</main>
 				<footer class="modal__footer">
-				  <button class="modal__btn modal__btn-primary">Continue</button>
-				  <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+				  <button class="modal__btn modal__btn-primary" id="butModalOpen">Open</button>
+				  <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Cancel</button>
 				</footer>
 			  </div>
 			</div>

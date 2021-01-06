@@ -135,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	butConnect.addEventListener('click', clickConnect);
 	butDownload.addEventListener('click', clickDownload);
 	butZip.addEventListener('click', clickZip);
+	butModalOpen.addEventListener('click', completeOpening);
 
 	if ('serial' in navigator) {
 		//notSupported.classList.add('hidden');
@@ -268,11 +269,38 @@ print('\\r\\n'.join(listdir('/')), end='')
 	filelist = filelist.split('\r\n');
 
 	console.log(filelist);
-	MicroModal.show('modal-1');
+
+	return filelist;
 }
 
-function clickDownload() {
-	fileList()
+async function clickDownload() {
+	var files = await fileList();
+
+	var open_chooser = $('#modal-open-chooser')[0];
+
+	while (open_chooser.length > 0) {
+		open_chooser.remove(0);
+	}
+
+	var idx;
+
+	for (idx in files) {
+		var newElement = document.createElement("option");
+		newElement.innerText=files[idx];
+		open_chooser.append(newElement);
+	}
+
+	MicroModal.show('modal-open');
+}
+
+async function completeOpening() {
+	var open_chooser = $('#modal-open-chooser')[0];
+
+	var fileName = open_chooser.selectedOptions[0].text;
+
+	editor.setValue(fileName);
+
+	MicroModal.close('modal-open');
 }
 
 async function readLoop() {
