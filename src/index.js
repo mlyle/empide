@@ -21,6 +21,7 @@ import Tabby from 'tabbyjs';
 import MicroModal from 'micromodal';
 import minjs from 'minjs';
 import FileSaver from 'file-saver';
+import JSZip from 'jszip';
 
 require('typeface-open-sans');
 
@@ -147,10 +148,6 @@ async function clickSave() {
 	fileName = fileName[fileName.length - 1] + ".txt";
 
 	FileSaver.saveAs(blob, fileName);
-}
-
-async function clickZip() {
-	MicroModal.show('modal-1');
 }
 
 async function clickConnect() {
@@ -314,6 +311,34 @@ async function clickDownload() {
 	}
 
 	MicroModal.show('modal-open');
+}
+
+async function clickZip() {
+	var files = await fileList();
+
+	var zip = new JSZip();
+	var idx;
+
+	for (idx in files) {
+		var fileName=files[idx];
+
+		var contents = await getFileContents(fileName);
+
+		if (fileName[0] == '/') {
+			fileName = fileName.substring(1);
+		}
+
+		console.log(`adding [${fileName}] to ZIP`)
+		zip.file(fileName, contents);
+	}
+
+	zip.forEach(function (relativePath, file){
+		console.log("iterating over", relativePath);
+	});
+
+	zip.generateAsync({type:"blob"}).then(function (blob) {
+        FileSaver.saveAs(blob, "empide-backup.zip");
+    });
 }
 
 async function completeOpening() {
