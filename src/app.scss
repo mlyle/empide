@@ -22,8 +22,8 @@ span[data-feather] {
 
 ::-webkit-scrollbar-thumb {
 	background: #999;
-	-webkit-border-radius: 1ex;
-	-webkit-box-shadow: 0px 1px 2px #444;
+	border-radius: 1ex;
+	box-shadow: 0px 1px 2px #444;
 }
 
 .float-logo {
@@ -152,7 +152,6 @@ input {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	float: right;
 }
 
 [role="tablist"] * {
@@ -282,15 +281,12 @@ input {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
-	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
-	transition: -webkit-transform .25s ease-out;
 	transition: transform .25s ease-out;
-	transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+	transition: transform .25s ease-out;
   }
   
   .modal__btn:focus, .modal__btn:hover {
-	-webkit-transform: scale(1.05);
 	transform: scale(1.05);
   }
   
