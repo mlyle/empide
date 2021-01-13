@@ -25,6 +25,15 @@ import JSZip from 'jszip';
 
 require('typeface-open-sans');
 
+// XXX: favicon
+// XXX: connection failure
+// XXX: connection lost
+// XXX: Flow control
+// XXX: retries??
+// XXX: files growing by a line each save/load cycle
+// XXX: loading making everything "selected" in editor
+// XXX: eliminate default edit document / replace with something sane.
+
 document.addEventListener('DOMContentLoaded', () => {
 	/* Bind minjs to $ window object for ease of use. */
 	window.$ = min$;
@@ -136,11 +145,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	butDownload.addEventListener('click', clickDownload);
 	butZip.addEventListener('click', clickZip);
 	butModalOpen.addEventListener('click', completeOpening);
+	butReset.addEventListener('click', clickReset);
+	butInterrupt.addEventListener('click', clickInterrupt);
+	butInstall.addEventListener('click', clickInstall);
+	butUpload.addEventListener('click', clickUpload);
 
 	if ('serial' in navigator) {
 		//notSupported.classList.add('hidden');
 	}
 });
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function clickSave() {
 	var blob = new Blob([editor.getValue()], {type: "text/plain;charset=utf-8"});
@@ -171,6 +188,7 @@ async function clickConnect() {
 }
 
 async function waitForText(text) {
+	// XXX timeout / fallback
 	var idx = -1;
 
 	while (idx === -1) {
@@ -189,6 +207,16 @@ async function waitForText(text) {
 	*/
 
 	return val;
+}
+
+function chunk(arr, chunkSize) {
+	var result = [];
+
+	for (var i=0, len = arr.length; i<len; i += chunkSize) {
+		result.push(arr.slice(i, i + chunkSize));
+	}
+
+	return result;
 }
 
 async function commandSend(text) {
@@ -234,12 +262,12 @@ async function commandGetResponse(text) {
 
 async function getFileContents(fileName) {
 	// XXX: properly escape
-	const command = `
+	var command = `
 def getFile(filespec):
 	with open(filespec) as reader:
 		print(reader.read())
 
-getFile('` + fileName + `')
+getFile('${fileName}')
 `;
 
 	var contents = await commandGetResponse(command);
@@ -293,7 +321,17 @@ print('\\r\\n'.join(listdir('/')), end='')
 	return trimmed;
 }
 
+async function clickInterrupt() {
+	// This used to send ^C twice, but that caused the target board to
+	// crash occasionally. 
+	writeChunk('\x02\x03');
+
+	await sleep(500);	
+}
+
 async function clickDownload() {
+	await clickInterrupt();
+
 	var files = await fileList();
 
 	var open_chooser = $('#modal-open-chooser')[0];
@@ -339,6 +377,67 @@ async function clickZip() {
 	zip.generateAsync({type:"blob"}).then(function (blob) {
         FileSaver.saveAs(blob, "empide-backup.zip");
     });
+}
+
+async function clickReset() {
+	await clickInterrupt();
+
+	var command = `	
+import machine
+machine.reset()
+`;
+
+	commandSend(command);
+}
+
+async function clickInstall() {
+	// XXX implementation
+	await clickInterrupt();
+}
+
+async function setFileContents(fileName, contents) {
+	var command = `
+__chunks = 0
+
+def __build_file_contents(chunk):
+	global __chunks
+
+	if __chunks == 0:
+		mode = 'w'
+	else:
+		mode = 'a'
+
+	with open('tmp_upload', mode) as writer:
+		writer.write(chunk)
+		__chunks += 1
+
+def __complete_rename(file_name, expected_chunks):
+	if expected_chunks == __chunks:
+		import os
+		os.rename('tmp_upload', file_name)
+		print("Success")
+	else:
+		print("FAIL")
+`
+
+	await commandSend(command);
+
+	var chunkedContent = chunk(contents, 140);
+
+	for (var i=0; i < chunkedContent.length; i++) {
+		// XXX Need to appropriately quote '''
+		await commandSend(`__build_file_contents('''${chunkedContent[i]}''')\n`);
+	}
+
+	var result = await commandGetResponse(`__complete_rename('${fileName}', ${chunkedContent.length})\n`);
+
+	console.log(result);
+}
+
+async function clickUpload() {
+	await clickInterrupt();
+
+	setFileContents($('#fileName')[0].value, editor.getValue());
 }
 
 async function completeOpening() {
