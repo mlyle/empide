@@ -21,6 +21,7 @@ module.exports = {
 				'node_modules/micropython/lib/firmware.wasm',
 				'src/index.html',
 				'src/mpedit.svg',
+				'src/defaultpackages.zip'
 			]
 		}),
 		new webpack.IgnorePlugin(/^fs$/),

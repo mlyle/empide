@@ -33,6 +33,7 @@ require('typeface-open-sans');
 // XXX: files growing by a line each save/load cycle
 // XXX: loading making everything "selected" in editor
 // XXX: eliminate default edit document / replace with something sane.
+// XXX: loading file to editor, etc, doesn't work when on terminal pane?
 
 document.addEventListener('DOMContentLoaded', () => {
 	/* Bind minjs to $ window object for ease of use. */
@@ -323,10 +324,10 @@ print('\\r\\n'.join(listdir('/')), end='')
 
 async function clickInterrupt() {
 	// This used to send ^C twice, but that caused the target board to
-	// crash occasionally. 
+	// crash occasionally.
 	writeChunk('\x02\x03');
 
-	await sleep(500);	
+	await sleep(500);
 }
 
 async function clickDownload() {
@@ -382,7 +383,7 @@ async function clickZip() {
 async function clickReset() {
 	await clickInterrupt();
 
-	var command = `	
+	var command = `
 import machine
 machine.reset()
 `;
@@ -391,7 +392,34 @@ machine.reset()
 }
 
 async function clickInstall() {
-	// XXX implementation
+	console.log("downloading defaultpackages.zip");
+
+	var response = await fetch('defaultpackages.zip');
+	console.log("Have defaultpackages.zip");
+
+	// XXX JSZip.loadAsync
+	var zip = await JSZip.loadAsync(response.blob());
+
+	var files = [];
+
+	zip.forEach(function (relativePath, zipEntry) {
+		console.log(zipEntry.name);
+
+		if (zipEntry.dir) {
+			return;
+		}
+
+		files.push(zipEntry.name);
+	});
+
+	for (const fname of files) {
+		console.log(fname);
+
+		var contents = await zip.file(fname).async('string');
+
+		await setFileContents(fname, contents);
+	}
+
 	await clickInterrupt();
 }
 
@@ -425,7 +453,7 @@ def __complete_rename(file_name, expected_chunks):
 	var chunkedContent = chunk(contents, 140);
 
 	for (var i=0; i < chunkedContent.length; i++) {
-		// XXX Need to appropriately quote '''
+		// XXX Need to appropriately quote ''', etc.
 		await commandSend(`__build_file_contents('''${chunkedContent[i]}''')\n`);
 	}
 
