@@ -12,50 +12,17 @@ module.exports = {
 	plugins: [
 		new CopyPlugin({
 			patterns: [
-				'node_modules/micropython/lib/firmware.wasm',
 				'src/index.html',
 				'src/mpedit.svg',
 				'src/defaultpackages.zip'
 			]
-		}),
-		new webpack.IgnorePlugin(/^fs$/),
+		})
 	],
 	devServer: {
 		contentBase: './dist',
 	},
 	module: {
 		rules: [
-			{
-				test: /\.module\.s(a|c)ss$/,
-				loader: [
-					MiniCssExtractPlugin.loader,
-					'css-loader',
-					{
-						loader: 'css-loader',
-						options: {
-							modules: true,
-						}
-					},
-					{
-						loader: 'sass-loader',
-						options: {
-						}
-					}
-				]
-			},
-			{
-				test: /\.s(a|c)ss$/,
-				exclude: /\.module.(s(a|c)ss)$/,
-				loader: [
-					MiniCssExtractPlugin.loader,
-					'css-loader',
-					{
-						loader: 'sass-loader',
-						options: {
-						}
-					}
-				]
-			},
 			{
 				test: /\.css$/,
 				use: [
@@ -68,7 +35,18 @@ module.exports = {
 				use: [
 					'file-loader',
 				],
-			}
+			},
+			{
+				test: /\.s[ac]ss$/i,
+				use: [
+					// Creates `style` nodes from JS strings
+					"style-loader",
+					// Translates CSS into CommonJS
+					"css-loader",
+					// Compiles Sass to CSS
+					"sass-loader",
+				],
+			},
 		]
 	},
 	resolve: {
