@@ -10,7 +10,6 @@
     "file-saver": "^2.0.5",
     "jszip": "^3.7.0",
     "micromodal": "^0.4.6",
-    "micropython": "^1.1.8",
     "minjs": "^2.0.6",
     "request": "^2.88.2",
     "tabbyjs": "^12.0.3",
