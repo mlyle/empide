@@ -212,9 +212,27 @@ async function waitForText(text) {
 
 function chunk(arr, chunkSize) {
 	var result = [];
+	var nextChunk = [];
 
 	for (var i=0, len = arr.length; i<len; i += chunkSize) {
-		result.push(arr.slice(i, i + chunkSize));
+		/* Scan to make sure that we don't end in a ', because that confuses python
+		 * with our quoting.  For safety, do the same with newlines, etc. */
+		for (var j = 0 ; j < 30; j++)
+		{
+			nextChunk = arr.slice(i, i + chunkSize + j);
+			if (nextChunk[nextChunk.length-1] == "'") continue;
+			if (nextChunk[nextChunk.length-1] == "\r") continue;
+			if (nextChunk[nextChunk.length-1] == "\n") continue;
+			break;
+		}
+		
+		if (j != 0)
+		{
+			console.log("Edge case with tick at end of block, j="+j);
+		}
+		i += j;
+
+		result.push(nextChunk);
 	}
 
 	return result;
@@ -463,9 +481,13 @@ def __complete_rename(file_name, expected_chunks):
 }
 
 async function clickUpload() {
+	// Using the modal to signal saving is a bit of a kludge, but adequate for now.
+	MicroModal.show('modal-saving');
+
 	await clickInterrupt();
 
-	setFileContents($('#fileName')[0].value, editor.getValue());
+	await setFileContents($('#fileName')[0].value, editor.getValue());
+	MicroModal.close('modal-saving');
 }
 
 async function completeOpening() {
