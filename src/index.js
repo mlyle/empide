@@ -352,6 +352,8 @@ async function clickInterrupt() {
 async function clickDownload() {
 	await clickInterrupt();
 
+	MicroModal.show('modal-busy');
+
 	var files = await fileList();
 
 	var open_chooser = $('#modal-open-chooser')[0];
@@ -368,11 +370,14 @@ async function clickDownload() {
 		open_chooser.append(newElement);
 	}
 
+	MicroModal.close('modal-busy');
 	MicroModal.show('modal-open');
 }
 
 async function clickZip() {
 	var files = await fileList();
+
+	MicroModal.show('modal-busy');
 
 	var zip = new JSZip();
 	var idx;
@@ -397,6 +402,8 @@ async function clickZip() {
 	zip.generateAsync({type:"blob"}).then(function (blob) {
         FileSaver.saveAs(blob, "empide-backup.zip");
     });
+
+	MicroModal.close('modal-busy');
 }
 
 async function clickReset() {
@@ -416,7 +423,8 @@ async function clickInstall() {
 	var response = await fetch('defaultpackages.zip');
 	console.log("Have defaultpackages.zip");
 
-	// XXX JSZip.loadAsync
+	MicroModal.show('modal-busy');
+
 	var zip = await JSZip.loadAsync(response.blob());
 
 	var files = [];
@@ -440,6 +448,8 @@ async function clickInstall() {
 	}
 
 	await clickInterrupt();
+
+	MicroModal.close('modal-busy');
 }
 
 async function setFileContents(fileName, contents) {
@@ -483,12 +493,12 @@ def __complete_rename(file_name, expected_chunks):
 
 async function clickUpload() {
 	// Using the modal to signal saving is a bit of a kludge, but adequate for now.
-	MicroModal.show('modal-saving');
+	MicroModal.show('modal-busy');
 
 	await clickInterrupt();
 
 	await setFileContents($('#fileName')[0].value, editor.getValue());
-	MicroModal.close('modal-saving');
+	MicroModal.close('modal-busy');
 }
 
 async function completeOpening() {
