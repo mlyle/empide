@@ -28,9 +28,7 @@ require('typeface-open-sans');
 
 // XXX: favicon
 // XXX: connection failure
-// XXX: connection lost
-// XXX: Flow control
-// XXX: retries??
+// XXX: connection lost / retry
 // XXX: files growing by a line each save/load cycle
 // XXX: loading making everything "selected" in editor
 // XXX: eliminate default edit document / replace with something sane.
