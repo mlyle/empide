@@ -14,6 +14,7 @@ let fitAddon;
 
 let term;
 let editor;
+let tabs;
 
 let modal;
 
@@ -83,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}, false);
 
-	var tabs = new Tabby('[data-tabs]');
+	tabs = new Tabby('[data-tabs]');
 
 	/* Prevent flash from loading tab content */
 	$('.wrapper').css('opacity', '1.0');
@@ -497,7 +498,9 @@ async function completeOpening() {
 
 	var contents = await getFileContents(fileName);
 
-	editor.setValue(contents);
+	tabs.toggle('#editor');
+
+	editor.getSession().setValue(contents);
 
 	$('#fileName')[0].value = fileName;
 
