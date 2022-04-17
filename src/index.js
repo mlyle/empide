@@ -2,6 +2,7 @@
 
 import styles from './app'
 
+let circuitpython = false;
 let port;
 let reader;
 let inputDone;
@@ -183,8 +184,29 @@ async function clickConnect() {
 	outputDone = encoder.readable.pipeTo(port.writable);
 	outputStream = encoder.writable;
 
+	// pop up modal, interrupt, get version info to know whether we are on circuitpython
+	MicroModal.show('modal-busy');
+
+	await doInterrupt();
+
+	var version = await commandGetResponse(`
+try:
+	from sys import implementation
+	print(implementation.name)
+except:
+	pass
+`);
+
+	if (version.indexOf('circuitpython') !== -1) {
+		circuitpython = true;
+	}
+
 	$('button[needs-connection]').removeAttr('disabled');
 	$('#butConnect').attr('disabled', true);
+
+	MicroModal.close('modal-busy');
+
+	editor.focus();
 }
 
 async function waitForText(text) {
