@@ -361,7 +361,7 @@ print('\\r\\n'.join(listdir('/')), end='')
 	return trimmed;
 }
 
-async function clickInterrupt() {
+async function doInterrupt() {
 	// This used to send ^C twice, but that caused the target board to
 	// crash occasionally.
 	writeChunk('\x02\x03');
@@ -369,8 +369,12 @@ async function clickInterrupt() {
 	await sleep(500);
 }
 
+async function clickInterrupt() {
+	await doInterrupt();
+}
+
 async function clickDownload() {
-	await clickInterrupt();
+	await doInterrupt();
 
 	MicroModal.show('modal-busy');
 
@@ -427,7 +431,7 @@ async function clickZip() {
 }
 
 async function clickReset() {
-	await clickInterrupt();
+	await doInterrupt();
 
 	var command = `
 import machine
@@ -467,7 +471,7 @@ async function clickInstall() {
 		await setFileContents(fname, contents);
 	}
 
-	await clickInterrupt();
+	await doInterrupt();
 
 	MicroModal.close('modal-busy');
 }
@@ -515,7 +519,7 @@ async function clickUpload() {
 	// Using the modal to signal saving is a bit of a kludge, but adequate for now.
 	MicroModal.show('modal-busy');
 
-	await clickInterrupt();
+	await doInterrupt();
 
 	await setFileContents($('#fileName')[0].value, editor.getValue());
 	MicroModal.close('modal-busy');
