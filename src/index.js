@@ -219,9 +219,9 @@ async function waitForText(text) {
 		idx = commandData.indexOf(text);
 	}
 
-	var val = commandData.substr(0, idx);
+	var val = commandData.substring(0, idx);
 
-	commandData = commandData.substr(idx + text.length);
+	commandData = commandData.substring(idx + text.length);
 
 	/*
 	console.log("waitForText found what it wanted, remaining: " + commandData);
