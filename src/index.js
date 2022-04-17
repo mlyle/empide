@@ -583,7 +583,7 @@ async function readLoop() {
 
 function writeChunk(data) {
 	const writer = outputStream.getWriter();
-	console.log('[SEND]', data);
+	//console.log('[SEND]', data);
 	writer.write(data);
 	writer.releaseLock();
 }
