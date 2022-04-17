@@ -440,12 +440,18 @@ async function clickZip() {
 async function clickReset() {
 	await doInterrupt();
 
-	var command = `
+	if (circuitpython) {
+		writeChunk('\x04');
+	} else {
+		var command = `
 import machine
 machine.reset()
 `;
 
-	commandSend(command);
+		commandSend(command);
+	}
+
+	term.focus();
 }
 
 async function clickInstall() {
