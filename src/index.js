@@ -166,6 +166,8 @@ async function clickSave() {
 	fileName = fileName[fileName.length - 1] + ".txt";
 
 	FileSaver.saveAs(blob, fileName);
+
+	editor.focus();
 }
 
 async function clickConnect() {
@@ -371,6 +373,8 @@ async function doInterrupt() {
 
 async function clickInterrupt() {
 	await doInterrupt();
+
+	term.focus();
 }
 
 async function clickDownload() {
@@ -428,6 +432,7 @@ async function clickZip() {
     });
 
 	MicroModal.close('modal-busy');
+	term.focus();
 }
 
 async function clickReset() {
@@ -474,6 +479,7 @@ async function clickInstall() {
 	await doInterrupt();
 
 	MicroModal.close('modal-busy');
+	term.focus();
 }
 
 async function setFileContents(fileName, contents) {
@@ -523,6 +529,7 @@ async function clickUpload() {
 
 	await setFileContents($('#fileName')[0].value, editor.getValue());
 	MicroModal.close('modal-busy');
+	editor.focus();
 }
 
 async function completeOpening() {
@@ -539,6 +546,8 @@ async function completeOpening() {
 	$('#fileName')[0].value = fileName;
 
 	MicroModal.close('modal-open');
+
+	editor.focus();
 }
 
 async function readLoop() {
