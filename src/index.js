@@ -369,6 +369,8 @@ async function doInterrupt() {
 	writeChunk('\x02\x03');
 
 	await sleep(500);
+
+	writeChunk('\n');
 }
 
 async function clickInterrupt() {
