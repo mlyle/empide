@@ -207,6 +207,7 @@ async function clickConnect() {
 	console.log("doInterrupt2");
 
 	await doInterrupt();
+	await sleep(600);
 
 	console.log("getVersion");
 
@@ -232,14 +233,18 @@ except:
 	editor.focus();
 }
 
-async function waitForText(text) {
-	// XXX timeout / fallback
+async function waitForText(text, timeout=60000) {
 	var idx = -1;
+	var expiration = Date.now() + timeout;
 
 	while (idx === -1) {
 		await new Promise(resolve => { setTimeout(resolve, 30);});
 
 		idx = commandData.indexOf(text);
+
+		if ((idx === -1) && (expiration < Date.now())) {
+			idx = 0;	// Timeout.
+		}
 	}
 
 	var val = commandData.substring(0, idx);
@@ -285,9 +290,18 @@ function chunk(arr, chunkSize) {
 async function commandSend(text) {
 	commandBusy++;
 
-	writeChunk('\x01')
+	var retText = '';
 
-	await waitForText('raw REPL; CTRL-B to exit');
+	while (!retText.includes('REPL')) {
+		console.log("Awaiting raw REPL...")
+		writeChunk('\x01');
+
+		retText = await waitForText('; CTRL-B to exit', 1000);
+
+		console.log(retText);
+
+		writeChunk('\r\n');
+	}
 
 	writeChunk(text);
 
@@ -604,7 +618,7 @@ async function readLoop() {
 
 function writeChunk(data) {
 	const writer = outputStream.getWriter();
-	//console.log('[SEND]', data);
+	console.log('[SEND]', data);
 	writer.write(data);
 	writer.releaseLock();
 }
