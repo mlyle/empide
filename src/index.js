@@ -189,7 +189,26 @@ async function clickConnect() {
 	// pop up modal, interrupt, get version info to know whether we are on circuitpython
 	MicroModal.show('modal-busy');
 
+	console.log("Connect: Delay");
+
+	await sleep(750);
+
+	console.log("prime writing, send space");
+	writeChunk(' ');
+
+	await sleep(100);
+
+	console.log("doInterrupt");
+
 	await doInterrupt();
+
+	await sleep(300);
+
+	console.log("doInterrupt2");
+
+	await doInterrupt();
+
+	console.log("getVersion");
 
 	var version = await commandGetResponse(`
 try:
@@ -202,6 +221,8 @@ except:
 	if (version.indexOf('circuitpython') !== -1) {
 		circuitpython = true;
 	}
+
+	console.log("CircuitPython : %s", circuitpython ? "yes" : "no");
 
 	$('button[needs-connection]').removeAttr('disabled');
 	$('#butConnect').attr('disabled', true);
