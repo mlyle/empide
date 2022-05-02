@@ -26,33 +26,37 @@
 				<button id="butInstall" type="button" needs-connection><span data-feather="package"></span>Reinstall Default Modules</button>
 				<button id="butZip" type="button" needs-connection><span data-feather="archive"></span>Download ZIP Backup</button>
 			</div>
-			<div id="editor">import os
+			<div id="editor">import time
+from adafruit_circuitplayground import cp
 
-def listdir(directory):
-    result = set()
-    def _listdir(dir_or_file):
-        try:
-            children = os.listdir(dir_or_file)
-        except OSError:
-            os.stat(dir_or_file)
-            result.add(dir_or_file)
-        else:
-            if children:
-                # queue the children to be dealt with in next iteration.
-                for child in children:
-                    if dir_or_file == '/':
-                        next = dir_or_file + child
-                    else:
-                        next = dir_or_file + '/' + child
+def hsv_to_rgb(h, s, v):
+	if s == 0.0: return (v, v, v)
+	i = int(h*6.)
+	f = (h*6.)-i; p,q,t = v*(1.-s), v*(1.-s*f), v*(1.-s*(1.-f)); i%=6
+	if i == 0: return (v, t, p)
+	if i == 1: return (q, v, p)
+	if i == 2: return (p, v, t)
+	if i == 3: return (p, q, v)
+	if i == 4: return (t, p, v)
+	if i == 5: return (v, p, q)
 
-                    _listdir(next)
-            else:
-                result.add(dir_or_file)
+print("Hello world!")
 
-    _listdir(directory)
-    return sorted(result)
+colorIdx = 0.0
 
-listdir('/')
+while True:
+	colorIdx += 0.01
+	if colorIdx > 1:
+		colorIdx -= 1
+	
+	for i in range(10):
+		thisHue = colorIdx + i / 13.0
+		if thisHue > 1:
+			thisHue -= 1
+		
+		r,g,b = hsv_to_rgb(thisHue, 1, 0.06)
+		
+		cp.pixels[i] = (int(r*255), int(g*80), int(b*80))				
 			</div>
 			<div id="info">Welcome to mpEDIT.<p>
 				mpEDIT attempts to be an easy-to-use development environment for MicroPython on embedded boards.  It can connect to the board via serial/USB in supported browsers, and then upload and download code.  I've written this tool primarily for my own use in secondary education robotics and mechatronics classes, but it is open sourced.  Pull requests are welcome.<p>
