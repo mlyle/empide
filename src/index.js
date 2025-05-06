@@ -421,6 +421,8 @@ async function clickDownload() {
 
 	var files = await fileList();
 
+	files.sort();
+
 	var open_chooser = $('#modal-open-chooser')[0];
 
 	while (open_chooser.length > 0) {
@@ -430,6 +432,8 @@ async function clickDownload() {
 	var idx;
 
 	for (idx in files) {
+		if (files[idx].startsWith('/.')) continue;
+
 		var newElement = document.createElement("option");
 		newElement.innerText=files[idx];
 		open_chooser.append(newElement);
@@ -511,6 +515,11 @@ async function clickInstall() {
 		files.push(zipEntry.name);
 	});
 
+	// Work around circuitpython being read-only when USB drive enabled
+	await commandSend(`
+import storage
+storage.remount("/", readonly=False)`);
+
 	for (const fname of files) {
 		console.log(fname);
 
@@ -528,20 +537,19 @@ async function clickInstall() {
 async function setFileContents(fileName, contents) {
 	var command = `
 __chunks = 0
+__f = open('tmp_upload', 'w')
 
 def __build_file_contents(chunk):
 	global __chunks
 
-	if __chunks == 0:
-		mode = 'w'
-	else:
-		mode = 'a'
-
-	with open('tmp_upload', mode) as writer:
-		writer.write(chunk)
-		__chunks += 1
+	__f.write(chunk)
+	__chunks += 1
 
 def __complete_rename(file_name, expected_chunks):
+	try:
+		__f.close()
+	except Exception:
+		pass
 	if expected_chunks == __chunks:
 		import os
 		os.rename('tmp_upload', file_name)
@@ -552,7 +560,7 @@ def __complete_rename(file_name, expected_chunks):
 
 	await commandSend(command);
 
-	var chunkedContent = chunk(contents, 180);
+	var chunkedContent = chunk(contents, 150);
 
 	for (var i=0; i < chunkedContent.length; i++) {
 		// XXX Need to appropriately quote ''', etc.
