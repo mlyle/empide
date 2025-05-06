@@ -552,7 +552,7 @@ def __complete_rename(file_name, expected_chunks):
 
 	await commandSend(command);
 
-	var chunkedContent = chunk(contents, 140);
+	var chunkedContent = chunk(contents, 180);
 
 	for (var i=0; i < chunkedContent.length; i++) {
 		// XXX Need to appropriately quote ''', etc.
