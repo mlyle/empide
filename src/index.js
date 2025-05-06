@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		 * focus the terminal when the terminal tab is selected.
 		 */
 		if (tab.id === 'tabby-toggle_terminal') {
-			term.resize(80, 25);
+			term.resize(132, 25);
 			term.focus();
 		}
 	}, false);
@@ -560,7 +560,7 @@ def __complete_rename(file_name, expected_chunks):
 
 	await commandSend(command);
 
-	var chunkedContent = chunk(contents, 200);
+	var chunkedContent = chunk(contents, 341);
 
 	for (var i=0; i < chunkedContent.length; i++) {
 		var escaped = chunkedContent[i].replace(/'''/g, `''' + "'''" + '''`);
