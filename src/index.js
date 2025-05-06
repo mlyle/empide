@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				$('#editor').css('opacity', '1.0');
 
 				/* Lowest priority: Asynchronously import xterm */
-				import(/* webpackPreload: true */ /* webpackChunkName: "xterm" */ 'xterm').then(module => {
+				import(/* webpackPreload: true */ /* webpackChunkName: "xterm" */ '@xterm/xterm').then(module => {
 					term = new module.Terminal();
 					term.open(document.getElementById('termContainer'));
 					term.onData(writeChunk);
@@ -560,11 +560,11 @@ def __complete_rename(file_name, expected_chunks):
 
 	await commandSend(command);
 
-	var chunkedContent = chunk(contents, 150);
+	var chunkedContent = chunk(contents, 200);
 
 	for (var i=0; i < chunkedContent.length; i++) {
-		// XXX Need to appropriately quote ''', etc.
-		await commandSend(`__build_file_contents('''${chunkedContent[i]}''')\n`);
+		var escaped = chunkedContent[i].replace(/'''/g, `''' + "'''" + '''`);
+		await commandSend(`__build_file_contents('''${escaped}''')\n`);
 	}
 
 	var result = await commandGetResponse(`__complete_rename('${fileName}', ${chunkedContent.length})\n`);
