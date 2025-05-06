@@ -13,8 +13,8 @@ module.exports = {
 		new CopyPlugin({
 			patterns: [
 				'src/index.html',
-				'src/mpedit.svg',
-				'src/defaultpackages.zip'
+				//'src/defaultpackages.zip',
+				'src/mpedit.svg'
 			]
 		})
 	],
